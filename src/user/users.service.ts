@@ -4,6 +4,7 @@ import constants from '../constants';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import EntityNotfoundException from 'src/exceptions/entity-not-found.exception';
 
 @Injectable()
 export class UsersService {
@@ -13,7 +14,15 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) { }
 
-  async findAll(): Promise<User[]> {
+  async findOne(userId: string): Promise<User> {
+    const user = await this.userRepository.findOne(userId);
+    if (!user) {
+      throw new EntityNotfoundException("Não foi possível encontrar o usuário");
+    }
+    return user;
+  }
+
+  findAll(): Promise<User[]> {
     return this.userRepository.find();
   }
 
