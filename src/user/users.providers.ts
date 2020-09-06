@@ -1,5 +1,5 @@
 import { Connection } from 'typeorm';
-import constants from 'src/constants';
+import constants from '../constants';
 import { User } from './user.entity';
 
 export const usersProviders = [
